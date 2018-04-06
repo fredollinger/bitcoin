@@ -20,6 +20,7 @@ QList<BitcoinUnits::Unit> BitcoinUnits::availableUnits()
     unitlist.append(BTC);
     unitlist.append(mBTC);
     unitlist.append(uBTC);
+    unitlist.append(USDollar);
     return unitlist;
 }
 
@@ -30,6 +31,7 @@ bool BitcoinUnits::valid(int unit)
     case BTC:
     case mBTC:
     case uBTC:
+    case USDollar:
         return true;
     default:
         return false;
@@ -43,6 +45,7 @@ QString BitcoinUnits::longName(int unit)
     case BTC: return QString("BTC");
     case mBTC: return QString("mBTC");
     case uBTC: return QString::fromUtf8("µBTC (bits)");
+    case USDollar: return QString::fromUtf8("USD$");
     default: return QString("???");
     }
 }
@@ -63,6 +66,7 @@ QString BitcoinUnits::description(int unit)
     case BTC: return QString("Bitcoins");
     case mBTC: return QString("Milli-Bitcoins (1 / 1" THIN_SP_UTF8 "000)");
     case uBTC: return QString("Micro-Bitcoins (bits) (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
+    case USDollar: return QString("US USDollar ($)");
     default: return QString("???");
     }
 }
@@ -74,6 +78,7 @@ qint64 BitcoinUnits::factor(int unit)
     case BTC:  return 100000000;
     case mBTC: return 100000;
     case uBTC: return 100;
+    case USDollar: return 100; // TODO calculate this by downloading conversion
     default:   return 100000000;
     }
 }
@@ -85,6 +90,7 @@ int BitcoinUnits::decimals(int unit)
     case BTC: return 8;
     case mBTC: return 5;
     case uBTC: return 2;
+    case USDollar: return 2;
     default: return 0;
     }
 }
