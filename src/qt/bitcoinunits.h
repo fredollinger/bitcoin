@@ -41,6 +41,8 @@
 #define THIN_SP_UTF8 REAL_THIN_SP_UTF8
 #define THIN_SP_HTML HTML_HACK_SP
 
+class ExchangeRate;
+
 /** Bitcoin unit definitions. Encapsulates parsing and formatting
    and serves as list model for drop-down selection boxes.
 */
@@ -124,7 +126,9 @@ public:
     static CAmount maxMoney();
 
 private:
+    ExchangeRate *exchangeRate;
     QList<BitcoinUnits::Unit> unitlist;
+
 };
 typedef BitcoinUnits::Unit BitcoinUnit;
 

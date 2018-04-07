@@ -3,15 +3,21 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include <qt/bitcoinunits.h>
+#include <qt/exchangerate.h>
 
 #include <primitives/transaction.h>
 
 #include <QStringList>
 
+static float floatingUnit = -1;
+
 BitcoinUnits::BitcoinUnits(QObject *parent):
         QAbstractListModel(parent),
         unitlist(availableUnits())
 {
+	exchangeRate = new ExchangeRate(this);
+	exchangeRate->uiReady();
+	exchangeRate->requestPrice("USD");
 }
 
 QList<BitcoinUnits::Unit> BitcoinUnits::availableUnits()
@@ -78,7 +84,7 @@ qint64 BitcoinUnits::factor(int unit)
     case BTC:  return 100000000;
     case mBTC: return 100000;
     case uBTC: return 100;
-    case USDollar: return 100; // TODO calculate this by downloading conversion
+    case USDollar: return (qint64)floatingUnit; // TODO calculate this by downloading conversion
     default:   return 100000000;
     }
 }
