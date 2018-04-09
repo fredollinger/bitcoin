@@ -86,7 +86,7 @@ public:
     //! Longer description
     static QString description(int unit);
     //! Number of Satoshis (1e-8) per unit
-    static qint64 factor(int unit);
+    static float factor(int unit);
     //! Number of decimals left
     static int decimals(int unit);
     //! Format as string

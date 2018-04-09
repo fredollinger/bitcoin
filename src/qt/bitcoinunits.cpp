@@ -77,7 +77,7 @@ QString BitcoinUnits::description(int unit)
     }
 }
 
-qint64 BitcoinUnits::factor(int unit)
+float BitcoinUnits::factor(int unit)
 {
     switch(unit)
     {
@@ -108,11 +108,11 @@ QString BitcoinUnits::format(int unit, const CAmount& nIn, bool fPlus, Separator
     if(!valid(unit))
         return QString(); // Refuse to format invalid unit
     qint64 n = (qint64)nIn;
-    qint64 coin = factor(unit);
+    float coin = factor(unit);
     int num_decimals = decimals(unit);
     qint64 n_abs = (n > 0 ? n : -n);
-    qint64 quotient = n_abs / coin;
-    qint64 remainder = n_abs % coin;
+    float quotient = n_abs / coin;
+    qint64 remainder = n_abs % (qint64)coin;
     QString quotient_str = QString::number(quotient);
     QString remainder_str = QString::number(remainder).rightJustified(num_decimals, '0');
 
