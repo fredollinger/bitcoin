@@ -9,8 +9,6 @@
 
 #include <QStringList>
 
-#include <QDebug>
-
 static float floatingUnit = -1;
 
 BitcoinUnits::BitcoinUnits(QObject *parent):
@@ -116,7 +114,13 @@ QString BitcoinUnits::format(int unit, const CAmount& nIn, bool fPlus, Separator
     qint64 n_abs = (n > 0 ? n : -n);
     float quotient = n_abs / coin;
     qint64 remainder = n_abs % (qint64)coin;
+
+    if (USDollar == unit) {
+        return QString::number(quotient, 'f', num_decimals);
+    } 
+
     QString quotient_str = QString::number(quotient);
+
     QString remainder_str = QString::number(remainder).rightJustified(num_decimals, '0');
 
     // Use SI-style thin space separators as these are locale independent and can't be
@@ -237,6 +241,5 @@ CAmount BitcoinUnits::maxMoney()
 }
 
 void BitcoinUnits::setCurrentPrice(float price) {
-    qDebug() << __PRETTY_FUNCTION__ << " price [" << price << "]";
     floatingUnit = price;
 }
