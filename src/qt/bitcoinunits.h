@@ -125,6 +125,9 @@ public:
     //! Return maximum number of base units (Satoshis)
     static CAmount maxMoney();
 
+private Q_SLOTS:
+    void setCurrentPrice(float price);
+
 private:
     ExchangeRate *exchangeRate;
     QList<BitcoinUnits::Unit> unitlist;

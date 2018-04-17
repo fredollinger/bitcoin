@@ -9,6 +9,8 @@
 
 #include <QStringList>
 
+#include <QDebug>
+
 static float floatingUnit = -1;
 
 BitcoinUnits::BitcoinUnits(QObject *parent):
@@ -16,6 +18,7 @@ BitcoinUnits::BitcoinUnits(QObject *parent):
         unitlist(availableUnits())
 {
 	exchangeRate = new ExchangeRate(this);
+        connect(exchangeRate, SIGNAL(currentPrice(float)), this, SLOT(setCurrentPrice(float)));
 	exchangeRate->uiReady();
 	exchangeRate->requestPrice("USD");
 }
@@ -231,4 +234,9 @@ QVariant BitcoinUnits::data(const QModelIndex &index, int role) const
 CAmount BitcoinUnits::maxMoney()
 {
     return MAX_MONEY;
+}
+
+void BitcoinUnits::setCurrentPrice(float price) {
+    qDebug() << __PRETTY_FUNCTION__ << " price [" << price << "]";
+    floatingUnit = price;
 }
